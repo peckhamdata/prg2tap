@@ -19,6 +19,9 @@ def code_type():
     return bytearray(b'\x80\xc7')
 
 def address_range(prg):
+    """
+    Get address range of code
+    """
     result = bytearray()
     result_end = (prg[1] * 255) + prg[0] + (len(prg) - 2)
     result.append(int(result_end / 255))
@@ -29,18 +32,30 @@ def address_range(prg):
     return result
 
 def reserved(num):
+    """
+    Return reserved bytes - zeros
+    """
     return bytearray(num)
 
 def filename(name):
+    """
+    Encode filename
+    """
     result = bytearray()
     result.extend(map(ord, name))
     result.append(0)
     return result
 
 def body(prg):
+    """
+    Code body
+    """
     return prg[2:]
 
 def process(prg, name):
+    """
+    Transform prg into tap
+    """
     result = sync_bytes()
     result.extend(reserved(2))
     result.extend(code_type())
@@ -51,7 +66,7 @@ def process(prg, name):
     return result
 
 def convert():
-    """Convert stdin .prg to stdout .xex"""
+    """Convert stdin .prg to stdout .tap"""
     try:
         data = sys.stdin.buffer.read()
     except AttributeError:
