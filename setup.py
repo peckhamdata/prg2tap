@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='prg2tap',
-      version='0.0.1',
+      version='0.0.3',
       description='Convert KickAssembler prg object code to Oric tap file',
       url='https://github.com/peckhamdata/prg2tap',
       author='worldofchris',
