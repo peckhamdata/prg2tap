@@ -5,4 +5,5 @@ from .prg2tap import address_range
 from .prg2tap import reserved
 from .prg2tap import filename
 from .prg2tap import body
-from .prg2tap import header
+from .prg2tap import process
+from .prg2tap import convert

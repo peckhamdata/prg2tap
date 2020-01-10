@@ -2,11 +2,15 @@
 Convert .prg file to Oric .tap file
 """
 
+import sys
+
+FILENAME = 'OSDK'
+
 def sync_bytes():
     """
     Sync Bytes for start of Oric tape header
     """
-    return bytearray(b'\x10\x10\x10\x10\x24')
+    return bytearray(b'\x16\x16\x16\x16\x24')
 
 def code_type():
     """
@@ -36,7 +40,7 @@ def filename(name):
 def body(prg):
     return prg[2:]
 
-def header(prg, name):
+def process(prg, name):
     result = sync_bytes()
     result.extend(reserved(2))
     result.extend(code_type())
@@ -45,3 +49,16 @@ def header(prg, name):
     result.extend(filename(name))
     result.extend(body(prg))
     return result
+
+def convert():
+    """Convert stdin .prg to stdout .xex"""
+    try:
+        data = sys.stdin.buffer.read()
+    except AttributeError:
+        sys.exit('error reading from stdin')
+    output = process(data, FILENAME)
+    sys.stdout.buffer.write(output)
+
+if __name__ == '__main__':
+
+    convert()

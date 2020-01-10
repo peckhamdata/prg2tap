@@ -26,14 +26,14 @@ Unit test for prg2tap
 """
 import unittest
 
-from prg2tap import sync_bytes, code_type, address_range, reserved, filename, body, header
+from prg2tap import sync_bytes, code_type, address_range, reserved, filename, body, process
 
 class TestPrg2tap(unittest.TestCase):
     """Standard issues test case class"""
     def test_sync_bytes(self):
         # at least four instances of $16, acting as synchronisation bytes;
         # an instance of $24, acting to signal the end of the synchronisation bytes;
-        expected = bytearray(b'\x10\x10\x10\x10\x24')
+        expected = bytearray(b'\x16\x16\x16\x16\x24')
         actual = sync_bytes()
 
         self.assertEqual(actual, expected)
@@ -79,8 +79,8 @@ class TestPrg2tap(unittest.TestCase):
 
     def test_header(self):
         prg = bytearray(b'\x00\x08\xa9\x00\x8d\x02\xa9')
-        expected = bytearray(b'\x10\x10\x10\x10\x24\x00\x00\x80\xc7\x08\x05\x08\x00\x00\x48\x45\x4c\x4c\x4f\x00\xa9\x00\x8d\x02\xa9')
-        actual = header(prg, 'HELLO')
+        expected = bytearray(b'\x16\x16\x16\x16\x24\x00\x00\x80\xc7\x08\x05\x08\x00\x00\x48\x45\x4c\x4c\x4f\x00\xa9\x00\x8d\x02\xa9')
+        actual = process(prg, 'HELLO')
 
         self.assertEqual(len(actual), len(expected))
         for i in range(0, len(expected)):
